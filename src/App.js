@@ -9,13 +9,15 @@ const fetchAndParseDiffyRequestList = async (regexPattern = null) => {
   let totalMatches = 0;
   let totalDiffs = 0;
   Object.keys(diffyResponseJson).forEach(key => {
-    if (regexPattern && key.match(regexPattern)) {
-      allMatchedRequests[key] = diffyResponseJson[key];
-      if (diffyResponseJson[key].differences === 0) totalMatches += diffyResponseJson[key].total;
-      if (diffyResponseJson[key].differences > 0) {
-        allMatchedRequestsWithDiffs[key] = diffyResponseJson[key];
-        totalMatches += diffyResponseJson[key].total - diffyResponseJson[key].differences;
-        totalDiffs += diffyResponseJson[key].differences;
+    if (regexPattern) {
+      if (key.match(regexPattern)) {
+        allMatchedRequests[key] = diffyResponseJson[key];
+        if (diffyResponseJson[key].differences === 0) totalMatches += diffyResponseJson[key].total;
+        if (diffyResponseJson[key].differences > 0) {
+          allMatchedRequestsWithDiffs[key] = diffyResponseJson[key];
+          totalMatches += diffyResponseJson[key].total - diffyResponseJson[key].differences;
+          totalDiffs += diffyResponseJson[key].differences;
+        }
       }
     } else {
       if (diffyResponseJson[key].differences === 0) totalMatches += diffyResponseJson[key].total;
